@@ -3,10 +3,10 @@
 // LLAMAR A LA API DE FORMA REMOTA O LOCAL *************************
 
 // REMOTA
-var url = "https://cuatroymedio.net:8443/";
+// var url = "https://cuatroymedio.net:8443/";
 
 // LOCAL
-//var url = "http://localhost:3000/";
+var url = "http://localhost:3000/";
 
 /* ************************************************************************* */
 
