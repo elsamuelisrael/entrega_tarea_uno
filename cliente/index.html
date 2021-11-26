@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/jquery-ui.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet"/>
+
+    <link rel="icon" type="image/png" sizes="192x192" href="imgs/icon.png">
+
+    <title></title>
+
+    <style>
+        
+        /* .btn:focus,
+        .btn:active {
+            outline: none !important;
+            box-shadow: none;
+        } */
+
+        .blur { 
+            -webkit-filter: blur(3px);
+            -moz-filter: blur(3px);
+            -o-filter: blur(3px);
+            -ms-filter: blur(3px); 
+            filter: blur(3px);
+        }
+
+        .b-example-divider {
+            height: 3rem;
+            background-color: rgba(0, 0, 0, .1);
+            border: solid rgba(0, 0, 0, .15);
+            border-width: 1px 0;
+            box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+        }
+
+        .bi {
+            vertical-align: -.125em;
+            fill: currentColor;
+        }
+
+        .rounded-4 { border-radius: .5rem; }
+        .rounded-5 { border-radius: .75rem; }
+        .rounded-6 { border-radius: 1rem; }
+
+        .modal-sheet .modal-dialog {
+            width: 380px;
+            transition: bottom .75s ease-in-out;
+        }
+        
+        .modal-sheet .modal-footer {
+            padding-bottom: 2rem;
+        }
+
+        .modal-alert .modal-dialog {
+            width: 380px;
+        }
+
+        .border-right { border-right: 1px solid #eee; }
+
+        .modal-tour .modal-dialog {
+            width: 380px;
+        }
+
+        body {
+            transition: background-color ease-in 1s; /* tweak to your liking */
+        }
+
+        .field {
+            display: flex;
+            position: relative;
+            max-width: 285px;
+            min-width: 200px;
+            width: 100%;
+            flex-direction: row;
+        }
+
+        .field > input[type=text] {
+            flex: 1;
+            padding: 0.6em 0.6em 0.6em 1.5em;
+            border: 1px solid #c4c4c4;
+            border-right: none;
+            display: block;
+        }
+
+        .field > div {
+            padding: 0.4em 0;
+            background-color: #fff;
+            border: 1px solid #c4c4c4;
+            border-left: none;
+            border-radius: 1px;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .field > div > i {
+            padding: 0.2em 0.8em;
+            background-color: inherit;
+            color: #555555;
+            border: none;
+            border-left: 1px solid #c4c4c4;
+            margin-right: 1px;
+        }
+
+        .field > div:last-child > i {
+            border-left: none;
+        }
+
+        .field > div:hover > i {
+            color: #009BDB;
+        }
+
+        .ui-effects-transfer { border: 4px dotted rgb(217, 83, 79) ; }
+
+    </style>
+
+</head>
+
+<body class="text-white bg-dark">
+
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                unir
+                <!-- <span id="elcargador" class="spinner-grow spinner-grow-sm text-success" role="status" aria-hidden="true"></span> -->
+                <!-- <div id="elcargador" class="spinner-grow" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div> -->
+                <!-- <div id="elcargador" class="spinner-border spinner-border-sm" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div> -->
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a id="menunuevo" class="nav-link" aria-current="page" data-bs-toggle="modal" data-bs-target="#modalNuevo" href="#">Nuevo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a 
+                            id="menupapelera"
+                            class="nav-link" 
+                            aria-current="page" 
+                            onclick="cargarpapelera();"
+                            href="javascript:void(0)"
+                        > 
+                            <span id="titulomenupape">Papelera</span>
+                            <span id="bolsamenupape" class="badge bg-primary"><span id="contadorpape">0</span></span> 
+                        </a>
+                    </li>
+                    <!--<li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled">Disabled</a>
+                    </li> -->
+                </ul>
+                <div class="d-flex">
+
+                    <div id="divbuscador" style="margin-right:45px;" class="field">
+                        <input id="campobuscar" type="text" placeholder="Encontrar..." />
+                        <div>
+                            <i class="fa fa-times" onclick="limpiar()"></i>
+                        </div>
+                        <div>
+                            <i class="fa fa-search" onclick="veabuscar()"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- <input id="campobuscar" class="form-control me-2" type="text" placeholder="Buscar">
+                    <button id="btnbuscar" onclick="veabuscar()" class="btn btn-outline-success" type="button">Buscar</button> -->
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main style="margin-top: 70px;" class="container">
+
+        <br />
+
+        <div class="d-flex align-items-center fs-4">
+            <strong>&nbsp;</strong>
+            <div id="elcargador" class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+        </div>
+        
+        <br/>
+
+        <div id="divlalista" class="list-group text-dark bg-dark">
+
+            <div id="divlalistaacordion" class="accordion">
+                <!-- -->
+            </div>
+
+        </div>
+
+        <div id="divpapalera" class="list-group text-dark bg-dark">
+
+            <div id="divtarjetaspapalera" class="row row-cols-1 row-cols-md-3 g-4">
+                <!-- -->
+            </div>
+
+            <div><br/><br/></div>
+
+        </div>
+
+        <nav id="paginacion" style="margin-top: 20px;" aria-label="Page navigation example">
+            <ul id="listadepaginas" class="pagination justify-content-center">
+                <!-- -->
+            </ul>
+        </nav>
+
+        <div id="modalEditar" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div id="modalEditarcontenido" class="modal-content rounded-5 shadow">
+                    <div class="modal-header p-5 pb-4 border-bottom-0">
+                        <h5 class="modal-title text-dark">Editar</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-5 pt-0">
+        
+                        <form class="">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control rounded-4" id="floatingInputNombre" placeholder="Nombre">
+                                <label class="text-dark" for="floatingInputNombre">Nombre</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control rounded-4" id="floatingInputAP" placeholder="Apellido Paterno">
+                                <label class="text-dark" for="floatingInputAP">Apellido Paterno</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control rounded-4" id="floatingInputAM" placeholder="Apellido Materno">
+                                <label class="text-dark" for="floatingInputAM">Apellido Materno</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control rounded-4" id="floatingInputEmail" placeholder="Email">
+                                <label class="text-dark" for="floatingInputEmail">Email</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select id="selectPuestos" class="form-select"></select>
+                            </div>
+
+                        </form>
+        
+                    </div>
+                    <div class="modal-footer">
+                        <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+                        <button 
+                            id="btnEditar"
+                            data-paglax="0"
+                            data-pagelid="0"
+                            data-acordionorigen="0"
+                            data-elid="0"
+                            data-elindex="0"
+                            onclick="editarEmpleadob(this.dataset);"
+                            type="button"
+                            class="btn btn-primary"
+                        > Guardar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="modalNuevo" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div id="modalNuevocontenido" class="modal-content rounded-5 shadow">
+                    <div class="modal-header p-5 pb-4 border-bottom-0">
+                        <h5 class="modal-title text-dark">Nuevo</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-5 pt-0">
+        
+                        <form id="formaNuevo" class="">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control rounded-4" id="floatingInputNombreMnuevo" placeholder="Nombre">
+                                <label class="text-dark" for="floatingInputNombreMnuevo">Nombre</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control rounded-4" id="floatingInputAPMnuevo" placeholder="Apellido Paterno">
+                                <label class="text-dark" for="floatingInputAPMnuevo">Apellido Paterno</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control rounded-4" id="floatingInputAMMnuevo" placeholder="Apellido Materno">
+                                <label class="text-dark" for="floatingInputAMMnuevo">Apellido Materno</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control rounded-4" id="floatingInputEmailMnuevo" placeholder="Email">
+                                <label class="text-dark" for="floatingInputEmailMnuevo">Email</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select id="selectPuestosMnuevo" class="form-select"></select>
+                            </div>
+                        </form>
+        
+                    </div>
+                    <div class="modal-footer">
+                        <button onclick="nuevoEmpleadob();" type="button" class="btn btn-primary">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modalmensaje" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true" aria-labelledby="modalmensajeLabel22">
+            <div class="modal-dialog modal-dialog-centered">
+                <div id="divcontenidomodal" class="modal-content">
+        
+                    <div id="modalmensajeheader" class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="modalmensajeLabel22"><i class="bi bi-info-circle-fill"></i>unir</h5>
+                        <button id="btncerrarmodalmensaje" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div id="contenidomodalmensaje" class="modal-body text-center">
+                        <!-- -->
+                    </div>
+        
+                    <div class="modal-footer">
+                        <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                          <button type="button" class="btn btn-primary">Iniciar</button> -->
+                        <br />
+                        <br />
+                    </div>
+        
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modalmensajeeliminar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true" aria-labelledby="modalmensajeeliminarLabel22">
+            <div class="modal-dialog modal-dialog-centered">
+                <div id="divcontenidomodal" class="modal-content">
+        
+                    <div id="modalmensajeeliminarheader" class="modal-header bg-danger text-white">
+                        <h5 class="modal-title" id="modalmensajeeliminarLabel22"><i class="bi bi-info-circle-fill"></i>unir</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div id="contenidomodalmensajeeliminar" class="modal-body text-center">
+                        <!-- -->
+                    </div>
+        
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button
+                            id="btnConfirmaeliminar"
+                            data-elid="0"
+                            data-index="0"
+                            data-colcard="0"
+                            data-nombre="0"
+                            onclick="confirmaEliminar(this.dataset);" 
+                            type="button"
+                            class="btn btn-danger">
+                            Confirmar
+                        </button>
+                        <br />
+                        <br />
+                    </div>
+        
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modalmensajerecuperar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true" aria-labelledby="modalmensajerecuperarLabel22">
+            <div class="modal-dialog modal-dialog-centered">
+                <div id="divcontenidomodal" class="modal-content">
+        
+                    <div id="modalmensajerecuperarheader" class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="modalmensajerecuperarLabel22"><i class="bi bi-info-circle-fill"></i>unir</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div id="contenidomodalmensajerecuperar" class="modal-body text-center">
+                        <!-- -->
+                    </div>
+        
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button
+                            id="btnConfirmarecuperar"
+                            data-elid="0"
+                            data-index="0"s
+                            data-colcard="0"
+                            data-nombre="0"
+                            onclick="confirmaRecuperar(this.dataset);" 
+                            type="button"
+                            class="btn btn-primary">
+                            Confirmar
+                        </button>
+                        <br />
+                        <br />
+                    </div>
+        
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modalenviarpape" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true" aria-labelledby="modalmensajeLabel222">
+            <div class="modal-dialog modal-dialog-centered">
+                <div id="divcontenidomodalpape" class="modal-content">
+        
+                    <div id="modalenviarpapeheader" class="modal-header bg-danger text-white">
+                        <h5 class="modal-title" id="modalmensajeLabel222"><i class="bi bi-info-circle-fill"></i>unir</h5>
+                        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                    </div>
+
+                    <div id="contenidomodalenviarpape" class="modal-body text-center">
+                        <!-- -->
+                        <!-- <h5 class="text-dark">¿Realmente desea eliminar a ??</h5> -->
+                    </div>
+        
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button 
+                            id="btnEnviarpapelera"
+                            data-elid="0"
+                            data-acordionorigen="0"
+                            data-nombrecollapse="0"
+                            onclick="enviarApapelera(this.dataset);"
+                            type="button" 
+                            class="btn btn-danger">
+                            Si
+                        </button>
+                        <br />
+                        <br />
+                    </div>
+        
+                </div>
+            </div>
+        </div>
+
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+            <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div style="--bs-bg-opacity: .75;" class="toast-header bg-dark text-white">
+                    <img src="imgs/icon.png" width="16px;" class="rounded me-2" alt="...">
+                    <strong class="me-auto">UNIR</strong>
+                    <small>ahora</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body text-dark">
+                    <p id="mensajeliveToast">xxx</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+
+    <script src="js/eljotaese.js"></script>
+
+    <script>
+
+        document.getElementById("divpapalera").style.display = 'none';
+        document.getElementById("elcargador").style.display = 'none';
+
+        $(document).ready(function() {
+            //console.log( "ready!" );
+            $('#elcargador').hide();
+            $('#divpapalera').hide();
+        });
+
+        $(function () {
+
+            //carga_lista();
+            /* $('#elcargador').hide(); */
+
+            //cargainicio();
+
+            cargainicioB();
+            cargainicioC();
+
+            $("#liveToast").toast({
+                delay: 3000,
+                animation: true
+            });
+
+            //$("#liveToast").toast('show');
+
+            //carga_lista_empleados();
+
+            /* var settings = {
+                "url": "https://cuatroymedio.net:8443/empleadosconpuesto",
+                "method": "GET",
+                "timeout": 0,
+            };
+
+            $.ajax(settings).done(function (response) {
+                console.log(response.Empleadosconpuesto);
+            }); */
+
+            /* var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "text/plain");
+
+            var raw = "{\"Nombre\": \"Roberto\",\"Ap\" : \"Fernandez\",\"Am\" : \"Uribe\",\"Email\": \"miusuario@elservidor.com\",\"Puesto\" : 55}";
+
+            var requestOptions = {
+                method: 'OPTIONS',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+            };
+
+            fetch("https://cuatroymedio.net:8443/empleados/1", requestOptions)
+                .then(response => response.text())
+                .then(result => console.log(result))
+                .catch(error => console.log('error', error)); */
+
+        });
+
+    </script>
+
+</body>
+
+</html>
