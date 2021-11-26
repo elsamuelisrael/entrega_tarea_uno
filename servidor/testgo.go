@@ -237,6 +237,14 @@ func nuevoEmpleado(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("nuevoEmpleado con los datos: ", nuevoEmpleado)
 
+	//fmt.Println("nuevoEmpleado.Puesto con el dato: ", nuevoEmpleado.Puesto)
+
+	if nuevoEmpleado.Puesto == 0 {
+
+		nuevoEmpleado.Puesto = 63
+
+	}
+
 	db := dbConn()
 
 	defer db.Close()
@@ -1023,6 +1031,12 @@ func updateEmpleado(w http.ResponseWriter, r *http.Request) {
 	elq = `
 		UPDATE empleados SET nombre = ?, ap = ?, am = ?, email = ?, puesto = ? WHERE id = ?
 	`
+
+	if updatedEmpleado.Puesto == 0 {
+
+		updatedEmpleado.Puesto = 63
+
+	}
 
 	results, err := db.Query(elq, updatedEmpleado.Nombre, updatedEmpleado.Ap, updatedEmpleado.Am, updatedEmpleado.Email, updatedEmpleado.Puesto, empleadoID)
 
