@@ -29,14 +29,6 @@ func dbConn() (db *sql.DB) {
 	return db
 }
 
-type Student struct {
-
-	// defining struct fields
-	Name  string
-	Marks int
-	Id    string
-}
-
 type Puesto struct {
 	ID     int    `json:"id"`
 	Nombre string `json:"nombre"`
@@ -510,11 +502,6 @@ func getEmpleadosconPuesto(w http.ResponseWriter, r *http.Request) {
 	var elq string
 
 	db := dbConn()
-
-	/* db, err := sql.Open("mysql", "balmendra:balmendra33?@tcp(127.0.0.1)/node_mysql_crud_db")
-	if err != nil {
-		fmt.Fprintf(w, err.Error())
-	} */
 
 	defer db.Close()
 
